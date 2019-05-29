@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简介</title>
+</head>
+<body>
+	<div id="view">
+		<ul data-bind="foreach: items">
+			<li data-bind="text: $data"></li>
+		</ul>
+		<button data-bind="click: addItem, enable: items().length < 5">添加</button>
+		There are <span data-bind="text: items().length"></span> items
+		<!-- 不用标签直接绑定数据？ -->
+	</div>
+
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="knockout.js"></script>
+	<script type="text/javascript">
+		var ViewModel = function() {
+			this.items = ko.observableArray(['a','b','c']),
+			this.addItem = function(){
+				this.items.push('New item')
+			}.bind(this); // Ensure that "this" is always this view model
+		};
+		// ko.applyBindings(new ViewModel());
+
+		// 可以与jquery同时使用
+		$(function () {
+			// 全部激活
+            // ko.applyBindings(new ViewModel());
+
+            // 部分激活
+            ko.applyBindings(new ViewModel(), document.getElementById('view'));
+        });
+	</script>
+</body>
+</html>
